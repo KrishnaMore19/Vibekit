@@ -4,7 +4,7 @@
 
 A full-stack web app where users can pick a design "vibe", build a mini-site with a visual editor, and publish it to a live public URL.
 
-**Live URL:** `https://vibekit-studio.netlify.app` ← _replace with your deployed URL_
+**Live URL:** `https://vibekit12.netlify.app/` 
 
 ---
 
@@ -112,15 +112,6 @@ In **Netlify → Site Settings → Environment Variables**, add:
 Netlify will auto-deploy. After deployment, run the SQL migration against your production database.
 
 ---
-
-## Test Credentials
-
-You can sign up with any email/password. Or use:
-
-```
-Email:    demo@vibekit.app
-Password: demo123456
-```
 
 _(Create this account by signing up normally — no seed data needed)_
 
