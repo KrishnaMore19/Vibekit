@@ -428,42 +428,109 @@ export default function ThemedPage({ page, isPreview = false }) {
           top: 0,
           zIndex: 100,
           boxShadow: 'var(--vk-shadow)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          minHeight: '60px',
         }}>
-          <span style={{
-            fontFamily: 'var(--vk-font-display)',
-            fontWeight: '800',
-            fontSize: '1.25rem',
-            color: 'var(--vk-text)',
-            letterSpacing: theme.id === 'retro' ? '0.1em' : '-0.01em',
-            flexShrink: 0,
-          }}>
-            {page?.title}
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', minHeight: '60px' }}>
+            <span style={{
+              fontFamily: 'var(--vk-font-display)',
+              fontWeight: '800',
+              fontSize: '1.25rem',
+              color: 'var(--vk-text)',
+              letterSpacing: theme.id === 'retro' ? '0.1em' : '-0.01em',
+              flexShrink: 0,
+            }}>
+              {page?.title}
+            </span>
 
-          {/* Desktop nav links */}
-          <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-            {navSections.map(s => (
-              <a key={s} href={`#${s}`} style={{
-                fontFamily: 'var(--vk-font-body)',
-                color: 'var(--vk-text-muted)',
-                textDecoration: 'none',
-                fontSize: '0.9rem',
-                fontWeight: '500',
-                textTransform: 'capitalize',
-                transition: 'color 0.2s',
-                padding: '0.5rem 0',
+            {/* Desktop nav links (hidden on mobile) */}
+            <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }} className="vk-nav-desktop">
+              {navSections.map(s => (
+                <a key={s} href={`#${s}`} style={{
+                  fontFamily: 'var(--vk-font-body)',
+                  color: 'var(--vk-text-muted)',
+                  textDecoration: 'none',
+                  fontSize: '0.9rem',
+                  fontWeight: '500',
+                  textTransform: 'capitalize',
+                  transition: 'color 0.2s',
+                  padding: '0.5rem 0',
+                }}
+                  onMouseEnter={e => { e.target.style.color = 'var(--vk-accent)'; }}
+                  onMouseLeave={e => { e.target.style.color = 'var(--vk-text-muted)'; }}
+                >
+                  {s}
+                </a>
+              ))}
+            </div>
+
+            {/* Mobile hamburger button */}
+            <button
+              onClick={() => setMobileMenuOpen(o => !o)}
+              className="vk-nav-mobile"
+              aria-label="Toggle menu"
+              style={{
+                background: 'none',
+                border: '1px solid var(--vk-border)',
+                borderRadius: 'var(--vk-radius)',
+                padding: '0.5rem',
+                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '4px',
+                minWidth: '44px',
+                minHeight: '44px',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
-                onMouseEnter={e => { e.target.style.color = 'var(--vk-accent)'; }}
-                onMouseLeave={e => { e.target.style.color = 'var(--vk-text-muted)'; }}
-              >
-                {s}
-              </a>
-            ))}
+            >
+              {[0,1,2].map(i => (
+                <span key={i} style={{
+                  display: 'block',
+                  width: '18px',
+                  height: '2px',
+                  background: 'var(--vk-text)',
+                  borderRadius: '2px',
+                  transition: 'opacity 0.2s',
+                  opacity: mobileMenuOpen && i === 1 ? 0 : 1,
+                }} />
+              ))}
+            </button>
           </div>
+
+          {/* Mobile dropdown menu */}
+          {mobileMenuOpen && (
+            <div style={{
+              borderTop: '1px solid var(--vk-border)',
+              paddingBottom: '0.75rem',
+            }} className="vk-nav-mobile">
+              {navSections.map(s => (
+                <a key={s} href={`#${s}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  style={{
+                    display: 'block',
+                    padding: '0.75rem 0',
+                    fontFamily: 'var(--vk-font-body)',
+                    color: 'var(--vk-text-muted)',
+                    textDecoration: 'none',
+                    fontSize: '1rem',
+                    fontWeight: '500',
+                    textTransform: 'capitalize',
+                    borderBottom: '1px solid var(--vk-border)',
+                  }}>
+                  {s}
+                </a>
+              ))}
+            </div>
+          )}
+
+          {/* Responsive styles injected inline */}
+          <style>{`
+            .vk-nav-desktop { display: flex !important; }
+            .vk-nav-mobile  { display: none !important; }
+            @media (max-width: 640px) {
+              .vk-nav-desktop { display: none !important; }
+              .vk-nav-mobile  { display: flex !important; }
+            }
+          `}</style>
         </nav>
 
         {/* ── Sections in order ─────────────────────────────────────────── */}

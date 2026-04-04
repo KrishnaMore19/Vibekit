@@ -54,7 +54,7 @@ function useAutoSave(pageId, data, onSaved) {
   return { saveStatus, forceSave };
 }
 
-// ─── Field components ─────────────────────────────────────────────────────────
+// ─── Field components (dark panel inputs) ────────────────────────────────────
 const Input = ({ label, value, onChange, placeholder, type = 'text', hint }) => (
   <div>
     <label className="block text-[11px] font-semibold text-white/50 mb-1.5 uppercase tracking-wide">{label}</label>
@@ -63,7 +63,7 @@ const Input = ({ label, value, onChange, placeholder, type = 'text', hint }) => 
       value={value}
       onChange={e => onChange(e.target.value)}
       placeholder={placeholder}
-      className="w-full px-3 py-2.5 bg-white/[0.05] border border-white/10 rounded-lg text-white text-sm placeholder-white/25 focus:outline-none focus:border-amber-500/50 transition-all min-h-[44px]"
+      className="w-full px-3 py-2.5 bg-white/[0.05] border border-white/10 rounded-lg text-white text-sm placeholder-white/25 focus:outline-none focus:border-white/30 transition-all min-h-[44px]"
     />
     {hint && <p className="text-[11px] text-white/30 mt-1">{hint}</p>}
   </div>
@@ -77,7 +77,7 @@ const Textarea = ({ label, value, onChange, placeholder, rows = 3 }) => (
       onChange={e => onChange(e.target.value)}
       placeholder={placeholder}
       rows={rows}
-      className="w-full px-3 py-2.5 bg-white/[0.05] border border-white/10 rounded-lg text-white text-sm placeholder-white/25 focus:outline-none focus:border-amber-500/50 transition-all resize-y"
+      className="w-full px-3 py-2.5 bg-white/[0.05] border border-white/10 rounded-lg text-white text-sm placeholder-white/25 focus:outline-none focus:border-white/30 transition-all resize-y"
     />
   </div>
 );
@@ -87,6 +87,7 @@ function HeroEditor({ data, onChange }) {
   const set = (key, val) => onChange({ ...data, [key]: val });
   return (
     <div className="flex flex-col gap-4">
+      <Input label="Page Title" value={data.title || ''} onChange={v => set('title', v)} placeholder="Welcome to My Page" hint="This is the main headline visitors see first" />
       <Textarea label="Subtitle" value={data.subtitle || ''} onChange={v => set('subtitle', v)} placeholder="A beautiful page..." rows={2} />
       <div className="grid grid-cols-2 gap-2">
         <Input label="Button Text" value={data.buttonText || ''} onChange={v => set('buttonText', v)} placeholder="Get Started" />
@@ -107,13 +108,12 @@ function FeaturesEditor({ data, onChange }) {
     if (features.length <= 3) { toast.error('Min 3 features'); return; }
     onChange(features.filter((_, i) => i !== idx));
   };
-
   return (
     <div className="flex flex-col gap-4">
       {features.map((f, i) => (
         <div key={f.id || i} className="rounded-xl p-3 flex flex-col gap-3 border border-white/[0.08] bg-white/[0.03]">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-mono text-amber-400/60">Feature {i + 1}</span>
+            <span className="text-[11px] font-mono text-white/40">Feature {i + 1}</span>
             <button onClick={() => remove(i)} className="text-red-400/50 hover:text-red-400 transition-colors p-1">
               <Trash2 className="w-3.5 h-3.5" />
             </button>
@@ -123,7 +123,7 @@ function FeaturesEditor({ data, onChange }) {
         </div>
       ))}
       {features.length < 6 && (
-        <button onClick={add} className="flex items-center justify-center gap-1.5 py-2.5 border border-dashed border-white/15 rounded-xl text-sm text-white/40 hover:text-white/70 hover:border-amber-500/40/40 transition-all min-h-[44px]">
+        <button onClick={add} className="flex items-center justify-center gap-1.5 py-2.5 border border-dashed border-white/15 rounded-xl text-sm text-white/40 hover:text-white/70 hover:border-white/30 transition-all min-h-[44px]">
           <Plus className="w-4 h-4" /> Add Feature
         </button>
       )}
@@ -142,13 +142,12 @@ function GalleryEditor({ data, onChange }) {
     if (images.length <= 3) { toast.error('Min 3 images'); return; }
     onChange(images.filter((_, i) => i !== idx));
   };
-
   return (
     <div className="flex flex-col gap-4">
       {images.map((img, i) => (
         <div key={img.id || i} className="rounded-xl p-3 flex flex-col gap-3 border border-white/[0.08] bg-white/[0.03]">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-mono text-amber-400/60">Image {i + 1}</span>
+            <span className="text-[11px] font-mono text-white/40">Image {i + 1}</span>
             <button onClick={() => remove(i)} className="text-red-400/50 hover:text-red-400 transition-colors p-1">
               <Trash2 className="w-3.5 h-3.5" />
             </button>
@@ -162,7 +161,7 @@ function GalleryEditor({ data, onChange }) {
         </div>
       ))}
       {images.length < 8 && (
-        <button onClick={add} className="flex items-center justify-center gap-1.5 py-2.5 border border-dashed border-white/15 rounded-xl text-sm text-white/40 hover:text-white/70 hover:border-amber-500/40/40 transition-all min-h-[44px]">
+        <button onClick={add} className="flex items-center justify-center gap-1.5 py-2.5 border border-dashed border-white/15 rounded-xl text-sm text-white/40 hover:text-white/70 hover:border-white/30 transition-all min-h-[44px]">
           <Image className="w-4 h-4" /> Add Image
         </button>
       )}
@@ -183,16 +182,13 @@ function ContactEditor({ data, onChange }) {
 // ─── Section panel ────────────────────────────────────────────────────────────
 function SectionPanel({ sectionKey, index, total, content, onChange, onMoveUp, onMoveDown }) {
   const [open, setOpen] = useState(index === 0);
-
   const LABELS = {
     hero: { label: 'Hero', icon: '🌟', desc: 'Title, subtitle & CTA button' },
     features: { label: 'Features', icon: '⚡', desc: '3–6 feature cards' },
     gallery: { label: 'Gallery', icon: '🖼️', desc: '3–8 images with lightbox' },
     contact: { label: 'Contact', icon: '✉️', desc: 'Contact form & message' },
   };
-
   const info = LABELS[sectionKey] || { label: sectionKey, icon: '📦', desc: '' };
-
   const renderEditor = () => {
     switch (sectionKey) {
       case 'hero': return <HeroEditor data={content.hero || {}} onChange={v => onChange('hero', v)} />;
@@ -202,43 +198,28 @@ function SectionPanel({ sectionKey, index, total, content, onChange, onMoveUp, o
       default: return null;
     }
   };
-
   return (
     <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] hover:border-white/[0.14] transition-colors">
-      {/* Header row — always visible */}
       <div className="flex items-center px-3 py-3 gap-2">
-        <button
-          onClick={() => setOpen(o => !o)}
-          className="flex items-center gap-3 flex-1 text-left min-h-[44px]"
-        >
+        <button onClick={() => setOpen(o => !o)} className="flex items-center gap-3 flex-1 text-left min-h-[44px]">
           <span className="text-xl flex-shrink-0 leading-none">{info.icon}</span>
           <div className="flex-1 min-w-0">
             <p className="font-semibold text-sm text-white">{info.label}</p>
             {!open && <p className="text-[11px] text-white/35 truncate mt-0.5">{info.desc}</p>}
           </div>
-          <ChevronDown
-            className={`w-4 h-4 text-white/30 transition-transform duration-200 flex-shrink-0 ${open ? 'rotate-180' : ''}`}
-          />
+          <ChevronDown className={`w-4 h-4 text-white/30 transition-transform duration-200 flex-shrink-0 ${open ? 'rotate-180' : ''}`} />
         </button>
         <div className="flex gap-0.5 flex-shrink-0">
-          <button
-            onClick={onMoveUp}
-            disabled={index === 0}
-            className="p-1.5 hover:bg-white/10 rounded-lg disabled:opacity-20 disabled:cursor-not-allowed transition-colors min-h-[44px] flex items-center"
-          >
+          <button onClick={onMoveUp} disabled={index === 0}
+            className="p-1.5 hover:bg-white/10 rounded-lg disabled:opacity-20 disabled:cursor-not-allowed transition-colors min-h-[44px] flex items-center">
             <ChevronUp className="w-3.5 h-3.5" />
           </button>
-          <button
-            onClick={onMoveDown}
-            disabled={index === total - 1}
-            className="p-1.5 hover:bg-white/10 rounded-lg disabled:opacity-20 disabled:cursor-not-allowed transition-colors min-h-[44px] flex items-center"
-          >
+          <button onClick={onMoveDown} disabled={index === total - 1}
+            className="p-1.5 hover:bg-white/10 rounded-lg disabled:opacity-20 disabled:cursor-not-allowed transition-colors min-h-[44px] flex items-center">
             <ChevronDown className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
-
-      {/* Expandable editor body — no overflow clipping so inputs/textareas are fully usable */}
       {open && (
         <div className="border-t border-white/[0.06] p-4 bg-white/[0.01] flex flex-col gap-4">
           {renderEditor()}
@@ -248,56 +229,43 @@ function SectionPanel({ sectionKey, index, total, content, onChange, onMoveUp, o
   );
 }
 
-// ─── Theme picker panel — beautiful redesign ──────────────────────────────────
+// ─── Theme picker panel ───────────────────────────────────────────────────────
 function ThemePickerPanel({ currentTheme, onChange }) {
   const themes = Object.values(THEMES);
-
   return (
     <div className="flex flex-col gap-2">
       {themes.map(t => {
         const isActive = currentTheme === t.id;
-        // Extract accent and bg colors from theme vars for the swatch preview
         const accent = t.vars?.['--vk-accent'] || '#8b5cf6';
         const bg = t.vars?.['--vk-bg'] || '#ffffff';
         const surface = t.vars?.['--vk-surface'] || '#f8f8f8';
-        const text = t.vars?.['--vk-text'] || '#111111';
-
         return (
-          <button
-            key={t.id}
-            onClick={() => onChange(t.id)}
+          <button key={t.id} onClick={() => onChange(t.id)}
             className={`group flex items-center gap-3 p-3 rounded-xl border text-left transition-all duration-200 min-h-[56px] ${
               isActive
-                ? 'border-amber-500/40 bg-amber-500/8 shadow-lg shadow-violet-500/10'
+                ? 'border-white/40 bg-white/10'
                 : 'border-white/[0.08] hover:border-white/20 bg-white/[0.02] hover:bg-white/[0.05]'
-            }`}
-          >
-            {/* Mini theme preview swatch */}
+            }`}>
             <div className="flex-shrink-0 w-10 h-10 rounded-lg overflow-hidden border border-white/10 shadow-md relative">
               <div style={{ background: bg, width: '100%', height: '100%', position: 'relative' }}>
-                {/* Simulated nav bar */}
                 <div style={{ background: surface, height: '35%', borderBottom: `1px solid ${accent}22` }} />
-                {/* Simulated accent button */}
                 <div style={{
                   position: 'absolute', bottom: '6px', left: '50%', transform: 'translateX(-50%)',
                   width: '60%', height: '6px', borderRadius: '3px', background: accent,
                 }} />
               </div>
             </div>
-
-            {/* Theme info */}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5">
                 <span className="text-base leading-none">{t.emoji}</span>
                 <p className="text-sm font-semibold text-white leading-tight truncate">{t.name}</p>
                 {isActive && (
-                  <span className="ml-auto flex-shrink-0 text-[10px] font-bold text-amber-400 bg-amber-500/12 px-1.5 py-0.5 rounded-full">
+                  <span className="ml-auto flex-shrink-0 text-[10px] font-bold text-white bg-white/20 px-1.5 py-0.5 rounded-full">
                     Active
                   </span>
                 )}
               </div>
               <p className="text-[11px] text-white/40 mt-0.5 truncate">{t.description || ''}</p>
-              {/* Color dots */}
               <div className="flex gap-1 mt-1.5">
                 {[bg, surface, accent].map((color, ci) => (
                   <div key={ci} className="w-3 h-3 rounded-full border border-white/20 flex-shrink-0"
@@ -365,16 +333,14 @@ function SlugEditor({ pageId, currentSlug, onUpdate }) {
             className={`w-full pl-7 pr-7 py-2 bg-white/[0.05] border rounded-lg text-sm text-white focus:outline-none transition-all min-h-[44px] ${
               available === true ? 'border-green-500/60'
               : available === false ? 'border-red-500/60'
-              : 'border-white/10 focus:border-amber-500/50'
+              : 'border-white/10 focus:border-white/30'
             }`}
           />
           {checking && <Loader2 className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-white/40 animate-spin" />}
         </div>
-        <button
-          onClick={handleSave}
+        <button onClick={handleSave}
           disabled={!slug || slug === currentSlug || available === false}
-          className="px-3 py-2 bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed rounded-lg text-xs font-medium transition-all min-h-[44px]"
-        >
+          className="px-3 py-2 bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed rounded-lg text-xs font-medium transition-all min-h-[44px]">
           Save
         </button>
       </div>
@@ -391,7 +357,7 @@ function SaveBadge({ status }) {
       {status === 'saving' && <Loader2 className="w-3.5 h-3.5 animate-spin text-white/40" />}
       {status === 'saved' && <Check className="w-3.5 h-3.5 text-green-400" />}
       {status === 'unsaved' && <RefreshCw className="w-3.5 h-3.5 text-yellow-400" />}
-      <span className={`text-xs ${
+      <span className={`text-xs font-body ${
         status === 'saved' ? 'text-green-400'
         : status === 'unsaved' ? 'text-yellow-400'
         : 'text-white/40'
@@ -413,7 +379,6 @@ export default function EditorPage() {
   const [activePanel, setActivePanel] = useState('sections');
   const [publishing, setPublishing] = useState(false);
   const [title, setTitle] = useState('');
-
   const [theme, setTheme] = useState('minimal');
   const [content, setContent] = useState({});
   const [slug, setSlug] = useState('');
@@ -448,32 +413,19 @@ export default function EditorPage() {
     });
   }, []);
 
-  // ✅ FIX: DB stores status as 'PUBLISHED' (uppercase), not 'published'
   const isPublished = page?.status === 'PUBLISHED';
 
   const handlePublishToggle = async () => {
     if (!page) return;
     setPublishing(true);
     try {
-      // Always save latest content first
       await forceSave();
-
       const { page: updated } = isPublished
         ? await pagesApi.unpublish(id)
         : await pagesApi.publish(id);
-
-      // ✅ FIX: update page state with full server response so status syncs
       setPage(updated);
-
-      toast.success(
-        isPublished ? 'Page unpublished' : '🚀 Page is live!',
-        { duration: isPublished ? 3000 : 5000 }
-      );
-
-      // Open the live page in new tab after publishing
-      if (!isPublished) {
-        setTimeout(() => window.open(`/p/${updated.slug}`, '_blank'), 500);
-      }
+      toast.success(isPublished ? 'Page unpublished' : '🚀 Page is live!', { duration: isPublished ? 3000 : 5000 });
+      if (!isPublished) setTimeout(() => window.open(`/p/${updated.slug}`, '_blank'), 500);
     } catch (err) {
       toast.error(err.message || 'Failed to update publish status');
     } finally {
@@ -487,79 +439,84 @@ export default function EditorPage() {
 
   if (loading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-[#050510]">
+      <div className="h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 border-2 border-amber-500/40 border-t-transparent rounded-full animate-spin" />
-          <p className="text-white/40 text-sm">Loading editor...</p>
+          <div className="w-10 h-10 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: 'var(--border-hi)', borderTopColor: 'transparent' }} />
+          <p className="text-sm font-body" style={{ color: 'var(--text-3)' }}>Loading editor...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden bg-[#050510]">
+    <div className="h-screen flex flex-col overflow-hidden" style={{ background: '#0a0a12' }}>
 
-      {/* ── Top toolbar ────────────────────────────────────────────────────── */}
-      <header className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 bg-[#0a0a1a]/90 backdrop-blur border-b border-white/[0.06] flex-shrink-0 z-30">
+      {/* ── Top toolbar — cream/black themed ───────────────────────────────── */}
+      <header className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 flex-shrink-0 z-30"
+        style={{ background: 'var(--bg)', borderBottom: '1px solid var(--border)' }}>
 
-        {/* Back */}
-        <Link to="/app" className="p-2 hover:bg-white/10 rounded-lg transition-colors min-h-[44px] flex items-center flex-shrink-0" title="Back to dashboard">
-          <ArrowLeft className="w-4 h-4 text-white/70" />
+        <Link to="/app"
+          className="p-2 rounded-lg transition-colors min-h-[44px] flex items-center flex-shrink-0"
+          style={{ color: 'var(--text-2)' }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface)'; e.currentTarget.style.color = 'var(--text)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-2)'; }}>
+          <ArrowLeft className="w-4 h-4" />
         </Link>
 
-        {/* Title input */}
+        {/* VibeKit logo */}
+        <div className="flex items-center gap-2 flex-shrink-0 mr-1">
+          <div className="w-6 h-6 rounded-md flex items-center justify-center" style={{ background: 'var(--text)' }}>
+            <Zap className="w-3 h-3" style={{ color: 'var(--bg)' }} strokeWidth={2.5} />
+          </div>
+        </div>
+
         <input
           value={title}
           onChange={e => setTitle(e.target.value)}
-          className="flex-1 min-w-0 bg-transparent border-none outline-none font-bold text-base text-white truncate placeholder-white/30"
+          className="flex-1 min-w-0 bg-transparent border-none outline-none font-display font-bold text-base truncate"
+          style={{ color: 'var(--text)' }}
           placeholder="Page title..."
         />
 
-        {/* Save badge */}
         <div className="hidden sm:flex flex-shrink-0">
           <SaveBadge status={saveStatus} />
         </div>
 
-        {/* Viewport toggle (desktop only) */}
-        <div className="hidden sm:flex items-center bg-white/[0.05] border border-white/[0.08] rounded-xl p-1 gap-0.5 flex-shrink-0">
+        {/* Viewport toggle */}
+        <div className="hidden sm:flex items-center rounded-xl p-1 gap-0.5 flex-shrink-0"
+          style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
           {VIEWPORTS.map(v => {
             const Icon = v.icon;
             return (
               <button key={v.id} onClick={() => setViewport(v.id)} title={v.label}
-                className={`p-2 rounded-lg transition-all min-h-[36px] flex items-center justify-center ${
-                  viewport === v.id ? 'bg-amber-500 text-white shadow-sm' : 'text-white/40 hover:text-white/70'
-                }`}>
+                className="p-2 rounded-lg transition-all min-h-[36px] flex items-center justify-center"
+                style={viewport === v.id
+                  ? { background: 'var(--text)', color: 'var(--bg)' }
+                  : { color: 'var(--text-3)' }}
+                onMouseEnter={e => { if (viewport !== v.id) e.currentTarget.style.color = 'var(--text)'; }}
+                onMouseLeave={e => { if (viewport !== v.id) e.currentTarget.style.color = 'var(--text-3)'; }}>
                 <Icon className="w-4 h-4" />
               </button>
             );
           })}
         </div>
 
-        {/* Publish + live link */}
+        {/* Publish actions */}
         <div className="flex items-center gap-2 flex-shrink-0">
-          {/* Live link button — only shown when published */}
           {isPublished && (
-            <a
-              href={`/p/${slug}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Open live page"
-              className="p-2 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 rounded-lg text-green-400 transition-colors min-h-[44px] flex items-center"
-            >
+            <a href={`/p/${slug}`} target="_blank" rel="noopener noreferrer" title="Open live page"
+              className="p-2 rounded-lg text-emerald-600 transition-colors min-h-[44px] flex items-center"
+              style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.25)' }}>
               <ExternalLink className="w-4 h-4" />
             </a>
           )}
-
-          {/* Publish / Unpublish button */}
-          <button
-            onClick={handlePublishToggle}
-            disabled={publishing}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all min-h-[44px] ${
-              isPublished
-                ? 'bg-green-500/15 border border-green-500/30 text-green-400 hover:bg-red-500/15 hover:border-red-500/30 hover:text-red-400'
-                : 'bg-amber-500 hover:bg-amber-400 text-white shadow-lg shadow-amber-500/20'
+          <button onClick={handlePublishToggle} disabled={publishing}
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all min-h-[44px] font-body ${
+              isPublished ? '' : ''
             }`}
-          >
+            style={isPublished
+              ? { background: 'rgba(16,185,129,0.10)', border: '1px solid rgba(16,185,129,0.28)', color: '#059669' }
+              : { background: 'var(--text)', color: 'var(--bg)' }}>
             {publishing ? (
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : isPublished ? (
@@ -574,11 +531,12 @@ export default function EditorPage() {
       {/* ── Body ─────────────────────────────────────────────────────────────── */}
       <div className="flex flex-1 overflow-hidden">
 
-        {/* ── Left panel ───────────────────────────────────────────────────── */}
-        <aside className="w-72 lg:w-80 flex-shrink-0 flex flex-col bg-[#0a0a1a]/80 border-r border-white/[0.06] min-h-0">
+        {/* ── Left panel — dark editor sidebar (intentional, like Figma) ──── */}
+        <aside className="w-72 lg:w-80 flex-shrink-0 flex flex-col border-r min-h-0"
+          style={{ background: '#0d0d18', borderColor: 'rgba(255,255,255,0.06)' }}>
 
           {/* Panel tabs */}
-          <div className="flex border-b border-white/[0.06] flex-shrink-0 bg-[#060612]">
+          <div className="flex border-b flex-shrink-0" style={{ borderColor: 'rgba(255,255,255,0.06)', background: '#08080f' }}>
             {[
               { id: 'sections', label: 'Sections', icon: Zap },
               { id: 'theme', label: 'Vibe', icon: Sparkles },
@@ -586,15 +544,13 @@ export default function EditorPage() {
             ].map(tab => {
               const Icon = tab.icon;
               return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActivePanel(tab.id)}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-semibold transition-all min-h-[44px] ${
+                <button key={tab.id} onClick={() => setActivePanel(tab.id)}
+                  className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-semibold transition-all min-h-[44px] font-body ${
                     activePanel === tab.id
-                      ? 'text-white border-b-2 border-amber-500/40 bg-amber-500/5'
+                      ? 'text-white border-b-2 bg-white/5'
                       : 'text-white/40 hover:text-white/70'
                   }`}
-                >
+                  style={activePanel === tab.id ? { borderBottomColor: 'rgba(255,255,255,0.5)' } : {}}>
                   <Icon className="w-3.5 h-3.5" />
                   <span className="hidden sm:block">{tab.label}</span>
                 </button>
@@ -605,49 +561,37 @@ export default function EditorPage() {
           {/* Panel content */}
           <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 flex flex-col gap-3 scroll-smooth">
 
-            {/* ── Sections panel ─────────────────────────────────────────── */}
             {activePanel === 'sections' && (
               <>
                 <p className="text-[11px] text-white/30 px-1 pt-1">Click to expand and edit each section</p>
                 {sectionOrder.map((key, i) => (
-                  <SectionPanel
-                    key={key}
-                    sectionKey={key}
-                    index={i}
-                    total={sectionOrder.length}
-                    content={content}
-                    onChange={updateSection}
-                    onMoveUp={() => moveSection(i, -1)}
-                    onMoveDown={() => moveSection(i, 1)}
-                  />
+                  <SectionPanel key={key} sectionKey={key} index={i} total={sectionOrder.length}
+                    content={content} onChange={updateSection}
+                    onMoveUp={() => moveSection(i, -1)} onMoveDown={() => moveSection(i, 1)} />
                 ))}
                 <div className="h-4 flex-shrink-0" />
               </>
             )}
 
-            {/* ── Theme / Vibe panel ─────────────────────────────────────── */}
             {activePanel === 'theme' && (
               <>
                 <div className="px-1 pt-1 flex items-center justify-between">
                   <p className="text-[11px] text-white/30">Choose a visual vibe for your page</p>
                   {THEMES[theme] && (
-                    <span className="text-[11px] text-amber-400 font-medium">{THEMES[theme].emoji} {THEMES[theme].name.split(' / ')[0]}</span>
+                    <span className="text-[11px] text-white/60 font-medium">{THEMES[theme].emoji} {THEMES[theme].name.split(' / ')[0]}</span>
                   )}
                 </div>
                 <ThemePickerPanel currentTheme={theme} onChange={setTheme} />
               </>
             )}
 
-            {/* ── Settings panel ─────────────────────────────────────────── */}
             {activePanel === 'settings' && page && (
               <>
                 <p className="text-[11px] text-white/30 px-1 pt-1">Page settings and metadata</p>
 
                 {/* Status card */}
                 <div className={`rounded-xl p-3 border flex items-start gap-3 ${
-                  isPublished
-                    ? 'bg-green-500/5 border-green-500/20'
-                    : 'bg-white/[0.03] border-white/[0.08]'
+                  isPublished ? 'bg-green-500/5 border-green-500/20' : 'bg-white/[0.03] border-white/[0.08]'
                 }`}>
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
                     isPublished ? 'bg-green-500/20' : 'bg-white/10'
@@ -660,7 +604,7 @@ export default function EditorPage() {
                     </p>
                     {isPublished ? (
                       <a href={`/p/${slug}`} target="_blank" rel="noopener noreferrer"
-                        className="text-[11px] text-amber-400 hover:underline flex items-center gap-1 mt-0.5 truncate">
+                        className="text-[11px] text-white/50 hover:text-white hover:underline flex items-center gap-1 mt-0.5 truncate">
                         /p/{slug} <ExternalLink className="w-2.5 h-2.5 flex-shrink-0" />
                       </a>
                     ) : (
@@ -674,7 +618,7 @@ export default function EditorPage() {
                   <SlugEditor pageId={id} currentSlug={slug} onUpdate={setSlug} />
                 </div>
 
-                {/* Viewport toggle (for mobile sidebar) */}
+                {/* Viewport toggle (mobile sidebar) */}
                 <div>
                   <label className="block text-[11px] font-semibold text-white/50 mb-2 uppercase tracking-wide">Preview Width</label>
                   <div className="flex gap-1 bg-white/[0.03] border border-white/[0.08] rounded-xl p-1">
@@ -683,7 +627,7 @@ export default function EditorPage() {
                       return (
                         <button key={v.id} onClick={() => setViewport(v.id)}
                           className={`flex-1 flex items-center justify-center gap-1 py-2 rounded-lg text-xs transition-all min-h-[44px] ${
-                            viewport === v.id ? 'bg-amber-500 text-white' : 'text-white/40 hover:text-white/60'
+                            viewport === v.id ? 'bg-white text-black' : 'text-white/40 hover:text-white/60'
                           }`}>
                           <Icon className="w-3.5 h-3.5" /><span className="hidden sm:block ml-1">{v.label}</span>
                         </button>
@@ -694,7 +638,7 @@ export default function EditorPage() {
 
                 {/* Force save */}
                 <button onClick={forceSave}
-                  className="flex items-center justify-center gap-2 py-3 bg-white/[0.03] border border-white/[0.08] rounded-xl text-sm font-medium hover:bg-white/[0.07] transition-all min-h-[44px] text-white/70">
+                  className="flex items-center justify-center gap-2 py-3 bg-white/[0.03] border border-white/[0.08] rounded-xl text-sm font-medium hover:bg-white/[0.07] transition-all min-h-[44px] text-white/70 font-body">
                   <Save className="w-4 h-4" /> Force Save
                 </button>
               </>
@@ -703,30 +647,30 @@ export default function EditorPage() {
         </aside>
 
         {/* ── Preview pane ─────────────────────────────────────────────────── */}
-        <main className="flex-1 overflow-hidden flex flex-col bg-[#030308]">
+        <main className="flex-1 overflow-hidden flex flex-col" style={{ background: '#060610' }}>
 
           {/* Preview label bar */}
-          <div className="flex items-center justify-between px-4 py-2 border-b border-white/[0.04] flex-shrink-0 bg-[#040410]">
-            <div className="flex items-center gap-2 text-xs text-white/30">
+          <div className="flex items-center justify-between px-4 py-2 border-b flex-shrink-0"
+            style={{ background: '#08080f', borderColor: 'rgba(255,255,255,0.04)' }}>
+            <div className="flex items-center gap-2 text-xs text-white/30 font-body">
               <span className="font-medium">Preview</span>
               <span>·</span>
               <span className="font-mono text-white/50">{vp.label}</span>
-              {viewport !== 'desktop' && <span className="font-mono text-amber-400/60">({vp.maxWidth})</span>}
+              {viewport !== 'desktop' && <span className="font-mono text-white/40">({vp.maxWidth})</span>}
             </div>
             <div className="flex items-center gap-3">
               {isPublished && (
-                <span className="flex items-center gap-1.5 text-xs text-green-400">
+                <span className="flex items-center gap-1.5 text-xs text-green-400 font-body">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
                   Live
                 </span>
               )}
-              {/* Mobile viewport toggle in preview bar */}
               <div className="flex sm:hidden items-center gap-0.5">
                 {VIEWPORTS.map(v => {
                   const Icon = v.icon;
                   return (
                     <button key={v.id} onClick={() => setViewport(v.id)} title={v.label}
-                      className={`p-1.5 rounded-md transition-all ${viewport === v.id ? 'text-amber-400' : 'text-white/30 hover:text-white/60'}`}>
+                      className={`p-1.5 rounded-md transition-all ${viewport === v.id ? 'text-white' : 'text-white/30 hover:text-white/60'}`}>
                       <Icon className="w-3.5 h-3.5" />
                     </button>
                   );
@@ -736,11 +680,11 @@ export default function EditorPage() {
           </div>
 
           {/* Preview frame */}
-          <div className="flex-1 overflow-auto flex justify-center p-4 bg-[#030308]">
+          <div className="flex-1 overflow-auto flex justify-center p-4" style={{ background: '#060610' }}>
             <motion.div
               animate={{ width: vp.width, maxWidth: vp.maxWidth === '100%' ? '100%' : vp.maxWidth }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="overflow-hidden rounded-xl shadow-2xl border border-white/[0.08]"
+              className="overflow-hidden rounded-xl shadow-2xl"
               style={{
                 width: vp.width,
                 maxWidth: vp.maxWidth === '100%' ? '100%' : vp.maxWidth,
@@ -748,8 +692,8 @@ export default function EditorPage() {
                 height: '100%',
                 overflowY: 'auto',
                 background: '#fff',
-              }}
-            >
+                border: '1px solid rgba(255,255,255,0.07)',
+              }}>
               <ThemedPage page={previewPage} isPreview={true} />
             </motion.div>
           </div>

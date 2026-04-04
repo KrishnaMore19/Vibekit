@@ -8,13 +8,22 @@
   port = 8888
   functions = "netlify/functions"
   targetPort = 5173
-  environment = { DATABASE_URL = "postgresql://postgres.qkbmwomazqwxpyhdfrbw:Kri$n@1908!@@aws-1-ap-south-1.pooler.supabase.com:6543/postgres?pgbouncer=true" }
+  framework = "#custom"
 
+# ── Contact form — must come BEFORE the generic /api/* catch-all ──────────────
+# Netlify evaluates redirects top-to-bottom; first match wins.
+[[redirects]]
+  from = "/api/public/pages/*/contact"
+  to = "/.netlify/functions/contact-submit"
+  status = 200
+
+# ── All other API routes → main serverless function ───────────────────────────
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api/:splat"
   status = 200
 
+# ── SPA fallback routes ───────────────────────────────────────────────────────
 [[redirects]]
   from = "/p/*"
   to = "/index.html"

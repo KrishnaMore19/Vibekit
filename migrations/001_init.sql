@@ -1,7 +1,6 @@
 -- VibeKit Studio - Initial Schema Migration
 -- Run this against your PostgreSQL database before deploying
 
--- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- Users table
@@ -17,13 +16,14 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 
 -- Pages table
+-- FIX: status uses 'DRAFT'/'PUBLISHED' (uppercase) to match JS checks
 CREATE TABLE IF NOT EXISTS pages (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   title TEXT NOT NULL DEFAULT 'Untitled Page',
   slug TEXT UNIQUE NOT NULL,
   theme TEXT NOT NULL DEFAULT 'minimal',
-  status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'published')),
+  status TEXT NOT NULL DEFAULT 'DRAFT' CHECK (status IN ('DRAFT', 'PUBLISHED')),
   content JSONB NOT NULL DEFAULT '{
     "hero": {
       "title": "Welcome to My Page",
@@ -85,3 +85,12 @@ CREATE TRIGGER users_updated_at
 CREATE TRIGGER pages_updated_at
   BEFORE UPDATE ON pages
   FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+
+ALTER TABLE contact_submissions ADD COLUMN IF NOT EXISTS page_slug TEXT NOT NULL DEFAULT '';
+
+-- If you already ran the old migration with lowercase status values,
+-- run this to migrate existing data:
+-- ALTER TABLE pages DROP CONSTRAINT IF EXISTS pages_status_check;
+-- UPDATE pages SET status = UPPER(status);
+-- ALTER TABLE pages ADD CONSTRAINT pages_status_check CHECK (status IN ('DRAFT', 'PUBLISHED'));

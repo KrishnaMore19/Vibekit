@@ -1,70 +1,41 @@
-// src/lib/api.js — Frontend API client
+// src/lib/api.js
 
-const BASE = '/api';
+const BASE_URL = import.meta.env.VITE_API_URL || '/.netlify/functions/api';
 
-class ApiError extends Error {
-  constructor(message, status) {
-    super(message);
-    this.status = status;
-  }
-}
-
-async function request(path, options = {}) {
-  const token = localStorage.getItem('vk_token');
-  const headers = {
-    'Content-Type': 'application/json',
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    ...options.headers,
-  };
-
-  const res = await fetch(`${BASE}${path}`, {
+async function request(method, path, body) {
+  const res = await fetch(`${BASE_URL}${path}`, {
+    method,
     credentials: 'include',
-    ...options,
-    headers,
+    headers: body ? { 'Content-Type': 'application/json' } : {},
+    body: body ? JSON.stringify(body) : undefined,
   });
 
-  if (!res.ok) {
-    let msg = `HTTP ${res.status}`;
-    try {
-      const data = await res.json();
-      msg = data.error || msg;
-    } catch {}
-    throw new ApiError(msg, res.status);
-  }
-
-  const text = await res.text();
-  return text ? JSON.parse(text) : {};
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
 }
 
-// ─── Auth ─────────────────────────────────────────────────────────────────────
 export const auth = {
-  signup: (email, password, name) =>
-    request('/auth/signup', { method: 'POST', body: JSON.stringify({ email, password, name }) }),
-  login: (email, password) =>
-    request('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
-  logout: () => request('/auth/logout', { method: 'POST' }),
-  me: () => request('/auth/me'),
+  me:     ()                            => request('GET',  '/auth/me'),
+  login:  (email, password)             => request('POST', '/auth/login',  { email, password }),
+  signup: (email, password, name)       => request('POST', '/auth/signup', { email, password, name }),
+  logout: ()                            => request('POST', '/auth/logout'),
 };
 
-// ─── Pages ────────────────────────────────────────────────────────────────────
 export const pages = {
-  list: () => request('/pages'),
-  create: (data) => request('/pages', { method: 'POST', body: JSON.stringify(data) }),
-  get: (id) => request(`/pages/${id}`),
-  update: (id, data) => request(`/pages/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  delete: (id) => request(`/pages/${id}`, { method: 'DELETE' }),
-  publish: (id) => request(`/pages/${id}/publish`, { method: 'POST' }),
-  unpublish: (id) => request(`/pages/${id}/unpublish`, { method: 'POST' }),
-  duplicate: (id) => request(`/pages/${id}/duplicate`, { method: 'POST' }),
-  checkSlug: (id, slug) => request(`/pages/${id}/slug-check?slug=${encodeURIComponent(slug)}`),
+  list:      ()                         => request('GET',    '/pages'),
+  create:    (data)                     => request('POST',   '/pages', data),
+  get:       (id)                       => request('GET',    `/pages/${id}`),
+  update:    (id, data)                 => request('PUT',    `/pages/${id}`, data),
+  remove:    (id)                       => request('DELETE', `/pages/${id}`),
+  publish:   (id)                       => request('POST',   `/pages/${id}/publish`),
+  unpublish: (id)                       => request('POST',   `/pages/${id}/unpublish`),
+  duplicate: (id)                       => request('POST',   `/pages/${id}/duplicate`),
+  checkSlug: (id, slug)                 => request('GET',    `/pages/${id}/slug-check?slug=${encodeURIComponent(slug)}`),
 };
 
-// ─── Public ───────────────────────────────────────────────────────────────────
 export const publicApi = {
-  getPage: (slug) => request(`/public/pages/${slug}`),
-  trackView: (slug) => request(`/public/pages/${slug}/view`, { method: 'POST' }),
-  contact: (slug, data) =>
-    request(`/public/pages/${slug}/contact`, { method: 'POST', body: JSON.stringify(data) }),
+  getPage:       (slug)                 => request('GET',  `/public/pages/${slug}`),
+  trackView:     (slug)                 => request('POST', `/public/pages/${slug}/view`),
+  submitContact: (slug, data)           => request('POST', `/public/pages/${slug}/contact`, data),
 };
-
-export { ApiError };

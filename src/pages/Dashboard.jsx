@@ -55,29 +55,29 @@ function ConfirmDialog({ open, title, desc, onConfirm, onCancel, danger = true }
       {open && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
-          style={{ background: 'rgba(0,0,0,0.7)' }}
+          style={{ background: 'rgba(16,14,9,0.45)' }}
           onClick={(e) => { if (e.target === e.currentTarget) onCancel(); }}>
           <motion.div initial={{ scale: 0.92, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.92, opacity: 0 }}
-            className="rounded-2xl p-6 max-w-sm w-full shadow-2xl"
-            style={{ background: 'var(--surface-2, #1a1a24)', border: '1px solid var(--border-hi)' }}>
+            className="rounded-2xl p-6 max-w-sm w-full"
+            style={{ background: 'var(--surface)', border: '1px solid var(--border-hi)', boxShadow: '0 24px 80px rgba(16,14,9,0.18)' }}>
             <div className="flex items-start justify-between mb-3">
               <h3 className="font-display text-lg font-bold">{title}</h3>
               <button onClick={onCancel} className="p-1 transition-colors" style={{ color: 'var(--text-3)' }}>
                 <X className="w-4 h-4" />
               </button>
             </div>
-            <p className="text-sm mb-6" style={{ color: 'var(--text-2)' }}>{desc}</p>
+            <p className="text-sm mb-6 font-body" style={{ color: 'var(--text-2)' }}>{desc}</p>
             <div className="flex gap-3">
               <button onClick={onCancel}
-                className="flex-1 py-2.5 rounded-xl text-sm font-medium transition-colors min-h-[44px]"
-                style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+                className="flex-1 py-2.5 rounded-xl text-sm font-medium transition-colors min-h-[44px] font-body"
+                style={{ background: 'var(--bg)', border: '1px solid var(--border)' }}>
                 Cancel
               </button>
               <button onClick={onConfirm}
-                className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-colors min-h-[44px] ${
-                  danger ? 'bg-red-500/80 hover:bg-red-500 text-white' : 'text-black'
+                className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-colors min-h-[44px] font-body ${
+                  danger ? 'bg-red-600 hover:bg-red-700 text-white' : ''
                 }`}
-                style={!danger ? { background: 'var(--amber)' } : {}}>
+                style={!danger ? { background: 'var(--text)', color: 'var(--bg)' } : {}}>
                 {danger ? 'Delete' : 'Confirm'}
               </button>
             </div>
@@ -122,12 +122,12 @@ function CreatePageModal({ open, onClose, onCreate }) {
       {open && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
-          style={{ background: 'rgba(0,0,0,0.72)' }}
+          style={{ background: 'rgba(16,14,9,0.45)' }}
           onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
           <motion.div initial={{ scale: 0.92, opacity: 0, y: 16 }} animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.92, opacity: 0, y: 16 }}
-            className="rounded-2xl p-6 max-w-md w-full shadow-2xl"
-            style={{ background: 'var(--surface)', border: '1px solid var(--border-hi)' }}>
+            className="rounded-2xl p-6 max-w-md w-full"
+            style={{ background: 'var(--surface)', border: '1px solid var(--border-hi)', boxShadow: '0 24px 80px rgba(16,14,9,0.18)' }}>
             <div className="flex items-center justify-between mb-6">
               <h2 className="font-display text-xl font-bold">New Page</h2>
               <button onClick={onClose} className="p-1 transition-colors" style={{ color: 'var(--text-3)' }}>
@@ -137,7 +137,7 @@ function CreatePageModal({ open, onClose, onCreate }) {
 
             <div className="flex flex-col gap-5">
               <div>
-                <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wide" style={{ color: 'var(--text-3)' }}>
+                <label className="block text-[11px] font-semibold mb-1.5 uppercase tracking-widest font-body" style={{ color: 'var(--text-3)' }}>
                   Page Title
                 </label>
                 <input
@@ -145,15 +145,15 @@ function CreatePageModal({ open, onClose, onCreate }) {
                   onChange={e => setTitle(e.target.value)}
                   onKeyDown={e => { if (e.key === 'Enter') handleCreate(); }}
                   placeholder="My Awesome Page"
-                  className="w-full px-4 py-3 rounded-xl text-white text-sm placeholder-white/25 focus:outline-none transition-all min-h-[48px]"
-                  style={{ background: 'var(--surface-2, #1a1a24)', border: '1px solid var(--border)' }}
-                  onFocus={e => e.target.style.borderColor = 'rgba(245,166,35,0.5)'}
+                  className="w-full px-4 py-3 rounded-xl text-sm placeholder-black/25 focus:outline-none transition-all min-h-[48px] font-body"
+                  style={{ background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--text)' }}
+                  onFocus={e => e.target.style.borderColor = 'rgba(16,14,9,0.45)'}
                   onBlur={e => e.target.style.borderColor = 'var(--border)'}
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: 'var(--text-3)' }}>
+                <label className="block text-[11px] font-semibold mb-2 uppercase tracking-widest font-body" style={{ color: 'var(--text-3)' }}>
                   Choose Vibe
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -161,31 +161,26 @@ function CreatePageModal({ open, onClose, onCreate }) {
                     <button key={t.id} onClick={() => setTheme(t.id)}
                       className="flex flex-col items-center gap-1.5 p-3 rounded-xl transition-all text-center min-h-[64px]"
                       style={{
-                        border: theme === t.id ? '1px solid rgba(245,166,35,0.5)' : '1px solid var(--border)',
-                        background: theme === t.id ? 'rgba(245,166,35,0.08)' : 'var(--surface-2, #1a1a24)',
+                        border: theme === t.id ? '1.5px solid rgba(16,14,9,0.55)' : '1px solid var(--border)',
+                        background: theme === t.id ? 'rgba(16,14,9,0.06)' : 'var(--bg)',
                       }}>
                       <span className="text-xl">{t.emoji}</span>
-                      <span className="text-[10px] font-medium" style={{ color: 'var(--text-2)' }}>
+                      <span className="text-[10px] font-semibold font-body" style={{ color: 'var(--text-2)' }}>
                         {t.name.split(' / ')[0]}
                       </span>
                     </button>
                   ))}
                 </div>
               </div>
-            </div>
 
-            <div className="flex gap-3 mt-6">
-              <button onClick={onClose}
-                className="flex-1 py-3 rounded-xl text-sm font-medium transition-colors min-h-[44px]"
-                style={{ background: 'var(--surface-2, #1a1a24)', border: '1px solid var(--border)' }}>
-                Cancel
-              </button>
-              <button onClick={handleCreate} disabled={loading || !title.trim()}
-                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold text-black transition-all min-h-[44px] disabled:opacity-40 disabled:cursor-not-allowed"
-                style={{ background: 'var(--amber)' }}>
-                {loading
-                  ? <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                  : <><Plus className="w-4 h-4" /> Create Page</>}
+              <button onClick={handleCreate} disabled={loading}
+                className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl font-semibold text-sm transition-all min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed font-body glow-amber"
+                style={{ background: 'var(--text)', color: 'var(--bg)' }}>
+                {loading ? (
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <><Plus className="w-4 h-4" /> Create Page</>
+                )}
               </button>
             </div>
           </motion.div>
@@ -195,170 +190,114 @@ function CreatePageModal({ open, onClose, onCreate }) {
   );
 }
 
-// ─── Page Card ────────────────────────────────────────────────────────────────
-function PageCard({ page, onDuplicate, onDelete, view = 'grid' }) {
-  const navigate = useNavigate();
-  const theme = THEMES[page.theme] || THEMES.minimal;
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [duplicating, setDuplicating] = useState(false);
-  const published = isPublished(page);
-
-  const handleDuplicate = async (e) => {
-    e?.stopPropagation();
-    setMenuOpen(false);
-    setDuplicating(true);
-    try { await onDuplicate(page.id); }
-    finally { setDuplicating(false); }
-  };
-
-  const handleDelete = () => { setMenuOpen(false); onDelete(page.id); };
-
-  if (view === 'list') {
-    return (
-      <motion.div layout
-        className="rounded-xl px-4 py-3 flex items-center gap-4 transition-all group card-lift"
+// ─── Empty State ──────────────────────────────────────────────────────────────
+function EmptyState({ onNew }) {
+  return (
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+      className="flex flex-col items-center justify-center text-center py-24 px-4">
+      <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6"
         style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
-        <div className="w-9 h-9 rounded-lg flex items-center justify-center text-xl flex-shrink-0"
-          style={{ background: theme.preview.bg }}>
-          {theme.emoji}
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="font-semibold text-sm truncate">{page.title}</p>
-          <p className="text-xs truncate" style={{ color: 'var(--text-3)' }}>/{page.slug}</p>
-        </div>
-        <div className="flex items-center gap-4 flex-shrink-0">
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold"
-            style={published
-              ? { background: 'rgba(34,197,94,0.12)', color: '#4ade80' }
-              : { background: 'rgba(255,255,255,0.07)', color: 'var(--text-3)' }}>
-            {published ? 'Live' : 'Draft'}
-          </span>
-          <span className="text-xs hidden sm:block" style={{ color: 'var(--text-3)' }}>{timeAgo(page.updated_at)}</span>
-          {published && (
-            <span className="text-xs hidden md:flex items-center gap-1" style={{ color: 'var(--text-3)' }}>
-              <Eye className="w-3 h-3" />{page.view_count}
-            </span>
-          )}
-          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button onClick={() => navigate(`/app/edit/${page.id}`)}
-              className="p-1.5 rounded-lg transition-colors min-h-[44px] flex items-center"
-              style={{ color: 'var(--text-2)' }}
-              onMouseEnter={e => e.currentTarget.style.background = 'rgba(245,166,35,0.1)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-              <Edit3 className="w-4 h-4" />
-            </button>
-            {published && (
-              <a href={`/p/${page.slug}`} target="_blank" rel="noopener noreferrer"
-                className="p-1.5 rounded-lg transition-colors min-h-[44px] flex items-center"
-                style={{ color: '#4ade80' }}>
-                <ExternalLink className="w-4 h-4" />
-              </a>
-            )}
-            <button onClick={handleDuplicate} disabled={duplicating}
-              className="p-1.5 rounded-lg transition-colors min-h-[44px] flex items-center"
-              style={{ color: 'var(--text-2)' }}>
-              <Copy className="w-4 h-4" />
-            </button>
-            <button onClick={handleDelete}
-              className="p-1.5 rounded-lg transition-colors min-h-[44px] flex items-center text-red-400/70 hover:text-red-400">
-              <Trash2 className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </motion.div>
-    );
-  }
+        <FileText className="w-7 h-7" style={{ color: 'var(--text-3)' }} />
+      </div>
+      <h3 className="font-display text-2xl font-bold mb-2">No pages yet</h3>
+      <p className="text-sm mb-8 max-w-xs font-body" style={{ color: 'var(--text-2)' }}>
+        Create your first VibeKit page and publish it to the world.
+      </p>
+      <button onClick={onNew}
+        className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm glow-amber min-h-[48px] font-body"
+        style={{ background: 'var(--text)', color: 'var(--bg)' }}>
+        <Plus className="w-4 h-4" /> Create your first page
+      </button>
+    </motion.div>
+  );
+}
+
+// ─── Page Card ────────────────────────────────────────────────────────────────
+function PageCard({ page, view, onDuplicate, onDelete }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const pub = isPublished(page);
+  const theme = THEMES[page.theme] || THEMES.minimal;
 
   return (
-    <motion.div layout initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl overflow-hidden flex flex-col card-lift"
+    <motion.div layout initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+      className={`rounded-2xl overflow-hidden card-lift ${view === 'list' ? 'flex items-center gap-4 p-4' : 'flex flex-col'}`}
       style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
-      {/* Preview strip */}
-      <div className="h-32 relative flex items-center justify-center overflow-hidden cursor-pointer group/strip"
-        onClick={() => navigate(`/app/edit/${page.id}`)}
-        style={{ background: theme.preview.bg }}>
-        <div className="absolute inset-0 flex flex-col gap-2.5 p-4 opacity-75">
-          <div className="h-3.5 rounded-sm w-3/4" style={{ background: theme.preview.text, opacity: 0.8 }} />
-          <div className="h-2 rounded-sm w-1/2" style={{ background: theme.preview.text, opacity: 0.4 }} />
-          <div className="h-7 rounded-sm w-1/3 mt-1"
-            style={{ background: theme.preview.accent, borderRadius: theme.vars['--vk-radius'] || '4px' }} />
-        </div>
-        <div className="absolute top-2 right-2 text-xl">{theme.emoji}</div>
-        <div className="absolute inset-0 opacity-0 group-hover/strip:opacity-100 transition-opacity flex items-center justify-center"
-          style={{ background: 'rgba(6,6,8,0.5)' }}>
-          <span className="flex items-center gap-1.5 text-sm font-semibold text-white">
-            <Edit3 className="w-4 h-4" /> Edit
-          </span>
-        </div>
-      </div>
 
-      {/* Info */}
-      <div className="p-4 flex-1 flex flex-col gap-2">
+      {/* Theme color strip */}
+      {view === 'grid' && (
+        <div className="h-24 relative flex items-end p-4"
+          style={{ background: theme.vars['--vk-bg'] }}>
+          <div className="flex gap-1.5">
+            {[theme.vars['--vk-accent'], theme.vars['--vk-text'], theme.vars['--vk-surface']].map((c, i) => (
+              <div key={i} className="w-5 h-5 rounded-full border border-black/10" style={{ background: c }} />
+            ))}
+          </div>
+          <span className="absolute top-3 right-3 text-base">{theme.emoji}</span>
+        </div>
+      )}
+
+      <div className={`flex flex-col gap-2 flex-1 ${view === 'grid' ? 'p-4' : ''}`}>
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-sm truncate">{page.title}</h3>
-            <p className="text-xs truncate mt-0.5" style={{ color: 'var(--text-3)' }}>/{page.slug}</p>
+            <h3 className="font-display font-semibold text-base truncate">{page.title}</h3>
+            <p className="text-xs mt-0.5 font-mono truncate" style={{ color: 'var(--text-3)' }}>/{page.slug}</p>
           </div>
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold flex-shrink-0"
-            style={published
-              ? { background: 'rgba(34,197,94,0.12)', color: '#4ade80' }
-              : { background: 'rgba(255,255,255,0.06)', color: 'var(--text-3)' }}>
-            {published ? 'Live' : 'Draft'}
-          </span>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold font-body ${
+              pub ? 'text-emerald-700' : ''
+            }`}
+              style={pub
+                ? { background: 'rgba(16,185,129,0.12)', color: '#059669' }
+                : { background: 'rgba(16,14,9,0.06)', color: 'var(--text-3)' }}>
+              {pub ? 'Live' : 'Draft'}
+            </span>
+          </div>
         </div>
-        <div className="flex items-center gap-3 text-xs" style={{ color: 'var(--text-3)' }}>
-          <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{timeAgo(page.updated_at)}</span>
-          {published && (
-            <span className="flex items-center gap-1"><TrendingUp className="w-3 h-3" />{page.view_count} views</span>
-          )}
+
+        <div className="flex items-center gap-3 text-xs font-body" style={{ color: 'var(--text-3)' }}>
+          <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{timeAgo(page.updated_at || page.created_at)}</span>
+          {pub && <span className="flex items-center gap-1"><Eye className="w-3 h-3" />{(page.view_count || 0).toLocaleString()} views</span>}
         </div>
       </div>
 
-      {/* Actions */}
-      <div className="px-4 pb-4 flex items-center gap-2">
-        <button onClick={() => navigate(`/app/edit/${page.id}`)}
-          className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold transition-all min-h-[44px]"
-          style={{ background: 'rgba(245,166,35,0.09)', border: '1px solid rgba(245,166,35,0.18)', color: 'var(--amber)' }}
-          onMouseEnter={e => e.currentTarget.style.background = 'rgba(245,166,35,0.16)'}
-          onMouseLeave={e => e.currentTarget.style.background = 'rgba(245,166,35,0.09)'}>
+      <div className={`flex gap-2 ${view === 'grid' ? 'px-4 pb-4' : 'flex-shrink-0'}`}>
+        <Link to={`/app/edit/${page.id}`}
+          className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold transition-all min-h-[44px] font-body"
+          style={{ background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--text)' }}>
           <Edit3 className="w-3.5 h-3.5" /> Edit
-        </button>
+        </Link>
 
-        {published && (
+        {pub && (
           <a href={`/p/${page.slug}`} target="_blank" rel="noopener noreferrer"
-            className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-semibold transition-colors min-h-[44px]"
-            style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#4ade80' }}>
-            <Globe className="w-3.5 h-3.5" /> Live
+            className="flex items-center justify-center px-3 py-2 rounded-xl text-xs transition-all min-h-[44px]"
+            style={{ background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--text-2)' }}>
+            <ExternalLink className="w-3.5 h-3.5" />
           </a>
         )}
 
-        {/* More menu */}
         <div className="relative">
           <button onClick={() => setMenuOpen(!menuOpen)}
-            className="p-2 rounded-xl transition-colors min-h-[44px] flex items-center justify-center"
-            style={{ border: '1px solid var(--border)', color: 'var(--text-3)' }}
-            onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.06)'}
-            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-            <MoreVertical className="w-4 h-4" />
+            className="flex items-center justify-center px-3 py-2 rounded-xl text-xs transition-all min-h-[44px]"
+            style={{ background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--text-2)' }}>
+            <MoreVertical className="w-3.5 h-3.5" />
           </button>
           <AnimatePresence>
             {menuOpen && (
               <>
                 <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
-                <motion.div initial={{ opacity: 0, scale: 0.92, y: -4 }} animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.92, y: -4 }}
-                  className="absolute bottom-full right-0 mb-1 w-38 rounded-xl overflow-hidden shadow-2xl z-20"
-                  style={{ background: 'var(--surface-2, #1a1a24)', border: '1px solid var(--border-hi)' }}>
-                  <button onClick={handleDuplicate} disabled={duplicating}
-                    className="w-full flex items-center gap-2 px-3 py-2.5 text-xs transition-colors text-left min-h-[44px]"
+                <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
+                  className="absolute right-0 bottom-full mb-1 z-20 w-36 rounded-xl overflow-hidden"
+                  style={{ background: 'var(--surface)', border: '1px solid var(--border-hi)', boxShadow: '0 8px 32px rgba(16,14,9,0.14)' }}>
+                  <button onClick={() => { onDuplicate(page.id); setMenuOpen(false); }}
+                    className="flex items-center gap-2 w-full px-3 py-2.5 text-xs transition-colors font-body text-left min-h-[44px]"
                     style={{ color: 'var(--text-2)' }}
-                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.06)'}
+                    onMouseEnter={e => e.currentTarget.style.background = 'var(--bg)'}
                     onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
                     <Copy className="w-3.5 h-3.5" /> Duplicate
                   </button>
-                  <button onClick={handleDelete}
-                    className="w-full flex items-center gap-2 px-3 py-2.5 text-xs text-red-400 transition-colors text-left min-h-[44px]"
-                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(239,68,68,0.1)'}
+                  <button onClick={() => { onDelete(page.id); setMenuOpen(false); }}
+                    className="flex items-center gap-2 w-full px-3 py-2.5 text-xs transition-colors font-body text-left min-h-[44px] text-red-600"
+                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(220,38,38,0.06)'}
                     onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
                     <Trash2 className="w-3.5 h-3.5" /> Delete
                   </button>
@@ -372,29 +311,7 @@ function PageCard({ page, onDuplicate, onDelete, view = 'grid' }) {
   );
 }
 
-// ─── Empty State ──────────────────────────────────────────────────────────────
-function EmptyState({ onNew }) {
-  return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-      className="flex flex-col items-center justify-center py-28 text-center px-4">
-      <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6"
-        style={{ background: 'var(--surface)', border: '1px solid rgba(245,166,35,0.2)', boxShadow: '0 0 40px rgba(245,166,35,0.08)' }}>
-        <FileText className="w-9 h-9" style={{ color: 'var(--amber)' }} />
-      </div>
-      <h3 className="font-display text-2xl font-bold mb-2">No pages yet</h3>
-      <p className="text-sm mb-8 max-w-xs" style={{ color: 'var(--text-2)' }}>
-        Create your first page and start building something beautiful with a vibe that's uniquely yours.
-      </p>
-      <button onClick={onNew}
-        className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black glow-amber transition-all min-h-[44px]"
-        style={{ background: 'var(--amber)' }}>
-        <Plus className="w-5 h-5" /> Create your first page
-      </button>
-    </motion.div>
-  );
-}
-
-// ─── Dashboard Main ───────────────────────────────────────────────────────────
+// ─── Dashboard ────────────────────────────────────────────────────────────────
 export default function Dashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -402,12 +319,12 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [createOpen, setCreateOpen] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
-  const [view, setView] = useState('grid');
   const [search, setSearch] = useState('');
+  const [view, setView] = useState('grid');
 
   useEffect(() => {
     pagesApi.list()
-      .then(({ pages }) => setPagesList(pages))
+      .then(({ pages }) => setPagesList(pages || []))
       .catch(() => toast.error('Failed to load pages'))
       .finally(() => setLoading(false));
   }, []);
@@ -427,7 +344,7 @@ export default function Dashboard() {
 
   const handleDelete = useCallback(async (id) => {
     try {
-      await pagesApi.delete(id);
+      await pagesApi.remove(id);
       setPagesList(prev => prev.filter(p => p.id !== id));
       toast.success('Page deleted');
     } catch { toast.error('Failed to delete page'); }
@@ -452,33 +369,32 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      {/* BG grid */}
-      <div className="fixed inset-0 bg-grid pointer-events-none" style={{ opacity: 1 }} />
+      <div className="fixed inset-0 bg-grid pointer-events-none opacity-50" />
 
       {/* Header */}
       <header className="sticky top-0 z-40 glass border-b" style={{ borderColor: 'var(--border)' }}>
         <div className="max-w-7xl mx-auto px-5 sm:px-8 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, #f5a623, #c47d0e)' }}>
-                <Zap className="w-4 h-4 text-black" strokeWidth={2.5} />
+            <Link to="/" className="flex items-center gap-2.5 group">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105"
+                style={{ background: 'var(--text)' }}>
+                <Zap className="w-4 h-4" style={{ color: 'var(--bg)' }} strokeWidth={2.5} />
               </div>
               <span className="font-display font-bold text-base hidden sm:block">VibeKit</span>
             </Link>
             <span className="hidden sm:block" style={{ color: 'var(--border-hi)' }}>/</span>
-            <span className="text-sm hidden sm:block" style={{ color: 'var(--text-2)' }}>Dashboard</span>
+            <span className="text-sm hidden sm:block font-body" style={{ color: 'var(--text-2)' }}>Dashboard</span>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-sm hidden sm:block" style={{ color: 'var(--text-3)' }}>
+            <span className="text-sm hidden sm:block font-body" style={{ color: 'var(--text-3)' }}>
               {user?.name || user?.email?.split('@')[0]}
             </span>
             <button onClick={handleLogout}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all min-h-[44px]"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all min-h-[44px] font-body"
               style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-2)' }}
-              onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--border-hi)'}
-              onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}>
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-hi)'; e.currentTarget.style.color = 'var(--text)'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text-2)'; }}>
               <LogOut className="w-4 h-4" />
               <span className="hidden sm:block">Sign out</span>
             </button>
@@ -491,13 +407,13 @@ export default function Dashboard() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div>
             <h1 className="font-display text-3xl sm:text-4xl font-bold">My Pages</h1>
-            <p className="text-sm mt-1.5" style={{ color: 'var(--text-3)' }}>
+            <p className="text-sm mt-1.5 font-body" style={{ color: 'var(--text-3)' }}>
               {pagesList.length} page{pagesList.length !== 1 ? 's' : ''} · {published} live · {totalViews.toLocaleString()} views
             </p>
           </div>
           <button onClick={() => setCreateOpen(true)}
-            className="flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-black glow-amber transition-all min-h-[48px] self-start sm:self-auto"
-            style={{ background: 'var(--amber)' }}>
+            className="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold font-body glow-amber transition-all min-h-[48px] self-start sm:self-auto"
+            style={{ background: 'var(--text)', color: 'var(--bg)' }}>
             <Plus className="w-5 h-5" /> New Page
           </button>
         </div>
@@ -509,8 +425,8 @@ export default function Dashboard() {
               <div key={label} className="rounded-xl p-4 card-lift"
                 style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
                 <div className="flex items-center gap-2 mb-2">
-                  <Icon className="w-3.5 h-3.5" style={{ color: 'var(--amber)' }} />
-                  <span className="text-xs font-medium" style={{ color: 'var(--text-3)' }}>{label}</span>
+                  <Icon className="w-3.5 h-3.5" style={{ color: 'var(--gold)' }} />
+                  <span className="text-xs font-medium font-body" style={{ color: 'var(--text-3)' }}>{label}</span>
                 </div>
                 <p className="font-display text-2xl font-bold">{value}</p>
               </div>
@@ -526,9 +442,9 @@ export default function Dashboard() {
               <input
                 type="text" value={search} onChange={e => setSearch(e.target.value)}
                 placeholder="Search pages..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-white placeholder-white/25 focus:outline-none transition-all min-h-[44px]"
-                style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
-                onFocus={e => e.target.style.borderColor = 'rgba(245,166,35,0.4)'}
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm placeholder-black/25 focus:outline-none transition-all min-h-[44px] font-body"
+                style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text)' }}
+                onFocus={e => e.target.style.borderColor = 'rgba(16,14,9,0.40)'}
                 onBlur={e => e.target.style.borderColor = 'var(--border)'}
               />
             </div>
@@ -537,7 +453,7 @@ export default function Dashboard() {
                 <button key={id} onClick={() => setView(id)}
                   className="flex items-center justify-center px-3 py-2 rounded-lg text-sm transition-all min-h-[44px]"
                   style={view === id
-                    ? { background: 'rgba(245,166,35,0.12)', color: 'var(--amber)' }
+                    ? { background: 'rgba(16,14,9,0.09)', color: 'var(--text)' }
                     : { color: 'var(--text-3)' }}>
                   <Icon className="w-4 h-4" />
                 </button>
@@ -554,7 +470,7 @@ export default function Dashboard() {
         ) : pagesList.length === 0 ? (
           <EmptyState onNew={() => setCreateOpen(true)} />
         ) : filtered.length === 0 ? (
-          <div className="text-center py-20" style={{ color: 'var(--text-3)' }}>
+          <div className="text-center py-20 font-body" style={{ color: 'var(--text-3)' }}>
             No pages match "{search}"
           </div>
         ) : (

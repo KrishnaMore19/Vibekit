@@ -8,8 +8,9 @@ import ThemedPage from '../components/preview/ThemedPage';
 
 function Skeleton() {
   return (
-    <div className="min-h-screen bg-[#050510] flex flex-col items-center justify-center gap-6">
-      <div className="w-10 h-10 border-2 border-violet-500 border-t-transparent rounded-full animate-spin" />
+    <div className="min-h-screen flex flex-col items-center justify-center gap-6" style={{ background: 'var(--bg)' }}>
+      <div className="w-10 h-10 border-2 border-t-transparent rounded-full animate-spin"
+        style={{ borderColor: 'var(--border-hi)', borderTopColor: 'transparent' }} />
       <div className="flex flex-col gap-3 w-full max-w-2xl px-4">
         <div className="skeleton h-8 w-64 rounded-lg mx-auto" />
         <div className="skeleton h-4 w-96 max-w-full rounded mx-auto" />
@@ -22,20 +23,24 @@ function Skeleton() {
 
 function NotFound({ slug }) {
   return (
-    <div className="min-h-screen bg-[#050510] flex flex-col items-center justify-center p-6 text-center">
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center"
+      style={{ background: 'var(--bg)' }}>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md">
-        <div className="w-16 h-16 rounded-2xl glass flex items-center justify-center mx-auto mb-6">
-          <AlertCircle className="w-8 h-8 text-red-400" />
+        <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6"
+          style={{ background: 'var(--surface)', border: '1px solid var(--border-hi)' }}>
+          <AlertCircle className="w-8 h-8 text-red-500" />
         </div>
         <h1 className="font-display text-3xl font-bold mb-3">Page not found</h1>
-        <p className="text-white/50 mb-2">
-          The page <code className="text-violet-400 font-mono bg-white/5 px-1.5 py-0.5 rounded">/{slug}</code> doesn't exist or hasn't been published yet.
+        <p className="mb-2 font-body" style={{ color: 'var(--text-2)' }}>
+          The page <code className="font-mono px-1.5 py-0.5 rounded text-sm"
+            style={{ background: 'var(--surface)', color: 'var(--text)' }}>/{slug}</code> doesn't exist or hasn't been published yet.
         </p>
-        <p className="text-white/30 text-sm mb-8">
+        <p className="text-sm mb-8 font-body" style={{ color: 'var(--text-3)' }}>
           Check the URL or ask the page owner to publish it.
         </p>
         <Link to="/"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-500 rounded-xl font-semibold transition-all glow-violet">
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all glow-amber min-h-[48px] font-body"
+          style={{ background: 'var(--text)', color: 'var(--bg)' }}>
           <Zap className="w-4 h-4" /> Build your own page
         </Link>
       </motion.div>
@@ -51,11 +56,9 @@ export default function PublishedPage() {
 
   useEffect(() => {
     if (!slug) return;
-    // Fetch page data
     publicApi.getPage(slug)
       .then(({ page }) => {
         setPage(page);
-        // Track view (fire and forget)
         publicApi.trackView(slug).catch(() => {});
       })
       .catch(err => {

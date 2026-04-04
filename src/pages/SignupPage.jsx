@@ -32,41 +32,41 @@ export default function SignupPage() {
   };
 
   const strength = password.length === 0 ? 0 : password.length < 8 ? 1 : password.length < 12 ? 2 : 3;
-  const strengthColors = ['', '#ef4444', '#f5a623', '#22c55e'];
+  const strengthColors = ['', '#dc2626', '#c09040', '#16a34a'];
   const strengthLabels = ['', 'Weak', 'Good', 'Strong'];
 
-  const inputCls = "w-full px-4 py-3 rounded-xl text-sm text-white placeholder-white/25 focus:outline-none transition-all min-h-[48px]";
-  const inputStyle = { background: 'var(--surface-2, #1a1a24)', border: '1px solid var(--border)' };
-  const onFocus = e => e.target.style.borderColor = 'rgba(245,166,35,0.5)';
+  const inputCls = "w-full px-4 py-3 rounded-xl text-sm placeholder-black/25 focus:outline-none transition-all min-h-[48px] font-body";
+  const inputStyle = { background: 'var(--surface-2)', border: '1px solid var(--border)', color: 'var(--text)' };
+  const onFocus = e => e.target.style.borderColor = 'rgba(16,14,9,0.45)';
   const onBlur  = e => e.target.style.borderColor = 'var(--border)';
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative" style={{ background: 'var(--bg)' }}>
       <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden>
-        <div className="bg-grid absolute inset-0" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[400px] blur-[100px]"
-          style={{ background: 'radial-gradient(ellipse, rgba(245,166,35,0.07) 0%, transparent 70%)' }} />
+        <div className="bg-grid absolute inset-0 opacity-60" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] blur-[120px]"
+          style={{ background: 'radial-gradient(ellipse, rgba(192,144,64,0.10) 0%, transparent 70%)' }} />
       </div>
 
       <motion.div
         initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}
         className="w-full max-w-[420px] relative z-10 rounded-2xl p-8 sm:p-10"
-        style={{ background: 'var(--surface)', border: '1px solid var(--border-hi)' }}>
+        style={{ background: 'var(--surface)', border: '1px solid var(--border-hi)', boxShadow: '0 24px 80px rgba(16,14,9,0.10)' }}>
 
-        <Link to="/" className="flex items-center gap-2.5 mb-10 w-fit">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #f5a623, #c47d0e)' }}>
-            <Zap className="w-4 h-4 text-black" strokeWidth={2.5} />
+        <Link to="/" className="flex items-center gap-2.5 mb-10 w-fit group">
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105"
+            style={{ background: 'var(--text)' }}>
+            <Zap className="w-4 h-4" style={{ color: 'var(--bg)' }} strokeWidth={2.5} />
           </div>
-          <span className="font-display font-bold text-[17px]">VibeKit</span>
+          <span className="font-display font-bold text-[19px]" style={{ color: 'var(--text)' }}>VibeKit</span>
         </Link>
 
-        <h1 className="font-display text-3xl font-bold mb-1">Create your account</h1>
-        <p className="text-sm mb-8" style={{ color: 'var(--text-2)' }}>Start building beautiful pages today</p>
+        <h1 className="font-display text-3xl font-bold mb-1" style={{ color: 'var(--text)' }}>Create your account</h1>
+        <p className="text-sm mb-8 font-body" style={{ color: 'var(--text-2)' }}>Start building beautiful pages today</p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
-            <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wide" style={{ color: 'var(--text-3)' }}>
+            <label className="block text-[11px] font-semibold mb-1.5 uppercase tracking-widest font-body" style={{ color: 'var(--text-3)' }}>
               Name <span style={{ color: 'var(--text-3)', textTransform: 'none', letterSpacing: 0 }}>(optional)</span>
             </label>
             <input type="text" autoComplete="name" value={name} onChange={e => setName(e.target.value)}
@@ -74,14 +74,14 @@ export default function SignupPage() {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wide" style={{ color: 'var(--text-3)' }}>Email</label>
+            <label className="block text-[11px] font-semibold mb-1.5 uppercase tracking-widest font-body" style={{ color: 'var(--text-3)' }}>Email</label>
             <input type="email" autoComplete="email" value={email} onChange={e => setEmail(e.target.value)}
               placeholder="you@example.com" className={inputCls} style={inputStyle}
               onFocus={onFocus} onBlur={onBlur} required />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wide" style={{ color: 'var(--text-3)' }}>Password</label>
+            <label className="block text-[11px] font-semibold mb-1.5 uppercase tracking-widest font-body" style={{ color: 'var(--text-3)' }}>Password</label>
             <div className="relative">
               <input type={showPw ? 'text' : 'password'} autoComplete="new-password" value={password}
                 onChange={e => setPassword(e.target.value)} placeholder="At least 8 characters"
@@ -95,16 +95,15 @@ export default function SignupPage() {
                 {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
-            {/* Strength bar */}
             {password.length > 0 && (
               <div className="mt-2 flex items-center gap-2">
                 <div className="flex gap-1 flex-1">
                   {[1, 2, 3].map(i => (
                     <div key={i} className="h-1 flex-1 rounded-full transition-all duration-300"
-                      style={{ background: i <= strength ? strengthColors[strength] : 'rgba(255,255,255,0.08)' }} />
+                      style={{ background: i <= strength ? strengthColors[strength] : 'rgba(16,14,9,0.10)' }} />
                   ))}
                 </div>
-                <span className="text-xs font-semibold" style={{ color: strengthColors[strength] }}>
+                <span className="text-xs font-semibold font-body" style={{ color: strengthColors[strength] }}>
                   {strengthLabels[strength]}
                 </span>
               </div>
@@ -112,10 +111,10 @@ export default function SignupPage() {
           </div>
 
           <button type="submit" disabled={loading}
-            className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl font-bold text-sm text-black glow-amber transition-all min-h-[48px] mt-1 disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ background: 'var(--amber)' }}>
+            className="btn-primary flex items-center justify-center gap-2 w-full py-3.5 rounded-xl font-semibold text-sm glow-amber transition-all min-h-[48px] mt-1 disabled:opacity-50 disabled:cursor-not-allowed font-body"
+            style={{ background: 'var(--text)', color: 'var(--bg)' }}>
             {loading ? (
-              <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
             ) : (
               <><ArrowRight className="w-4 h-4" /> Create free account</>
             )}
@@ -123,9 +122,9 @@ export default function SignupPage() {
         </form>
 
         <div className="mt-5 pt-5" style={{ borderTop: '1px solid var(--border)' }}>
-          <p className="text-center text-sm" style={{ color: 'var(--text-3)' }}>
+          <p className="text-center text-sm font-body" style={{ color: 'var(--text-3)' }}>
             Already have an account?{' '}
-            <Link to="/login" className="font-semibold" style={{ color: 'var(--amber)' }}>
+            <Link to="/login" className="font-semibold hover:opacity-70 transition-opacity" style={{ color: 'var(--text)' }}>
               Sign in →
             </Link>
           </p>

@@ -1,25 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Design Tokens ─────────────────────────────────────────────────────────── */
+/* ─── Design Tokens — Cream & Black ────────────────────────────────────────── */
 :root {
-  --bg:        #060608;
-  --bg-2:      #0c0c10;
-  --bg-3:      #111118;
-  --surface:   #14141c;
-  --surface-2: #1a1a24;
-  --border:    rgba(255,255,255,0.07);
-  --border-hi: rgba(255,255,255,0.13);
+  /* Backgrounds — creamy whites */
+  --bg:        #F7F3EC;
+  --bg-2:      #F2EDE4;
+  --bg-3:      #EDE7DC;
+  --surface:   #FAF7F2;
+  --surface-2: #FFFFFF;
 
-  --amber:     #f5a623;
-  --amber-dim: #c47d0e;
-  --amber-glow:rgba(245,166,35,0.18);
-  --amber-soft:rgba(245,166,35,0.07);
+  /* Borders */
+  --border:    rgba(20,15,10,0.10);
+  --border-hi: rgba(20,15,10,0.20);
 
-  --text:      #ede8e0;
-  --text-2:    rgba(237,232,224,0.52);
-  --text-3:    rgba(237,232,224,0.26);
+  /* Brand amber/gold — kept for CTA consistency */
+  --amber:      #1A1208;
+  --amber-dim:  #2e200a;
+  --amber-glow: rgba(26,18,8,0.18);
+  --amber-soft: rgba(26,18,8,0.06);
+
+  /* Text — near-black on cream */
+  --text:   #100E09;
+  --text-2: rgba(16,14,9,0.55);
+  --text-3: rgba(16,14,9,0.35);
+
+  /* Accent gold (for decorative pops) */
+  --gold:      #C09040;
+  --gold-soft: rgba(192,144,64,0.15);
 
   --radius-sm: 6px;
   --radius:    10px;
@@ -32,7 +43,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-family: 'DM Sans', 'Plus Jakarta Sans', sans-serif;
   background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
@@ -42,82 +53,98 @@ body {
 /* ─── Custom scrollbar ──────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(245,166,35,0.3); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(245,166,35,0.55); }
+::-webkit-scrollbar-thumb { background: rgba(16,14,9,0.18); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(16,14,9,0.32); }
 
 /* ─── Typography ────────────────────────────────────────────────────────────── */
-.font-display { font-family: 'Syne', 'Plus Jakarta Sans', sans-serif; }
-.font-body    { font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif; }
+.font-display { font-family: 'Cormorant Garamond', Georgia, serif; }
+.font-body    { font-family: 'DM Sans', sans-serif; }
 .font-mono    { font-family: 'JetBrains Mono', monospace; }
 
-/* ─── Glass — darker & sharper ─────────────────────────────────────────────── */
+/* ─── Glass — cream frosted ─────────────────────────────────────────────────── */
 .glass {
-  background: rgba(20, 20, 28, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(247, 243, 236, 0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border: 1px solid var(--border);
 }
 
 .glass-strong {
-  background: rgba(26, 26, 36, 0.94);
+  background: rgba(250, 247, 242, 0.96);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
   border: 1px solid var(--border-hi);
 }
 
-/* ─── Gradient text — amber gold ────────────────────────────────────────────── */
+/* ─── Gradient text — black to gold ────────────────────────────────────────── */
 .gradient-text {
-  background: linear-gradient(118deg, #f5a623 10%, #fad27a 55%, #f09a10 100%);
+  background: linear-gradient(118deg, #100E09 10%, #C09040 55%, #100E09 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .gradient-text-warm {
-  background: linear-gradient(118deg, #f5a623 0%, #ff7340 60%, #f5a623 100%);
+  background: linear-gradient(118deg, #1a1208 0%, #c09040 60%, #1a1208 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* ─── Glows — amber ─────────────────────────────────────────────────────────── */
+/* ─── Glows — dark ink ──────────────────────────────────────────────────────── */
 .glow-amber {
-  box-shadow: 0 0 20px rgba(245,166,35,0.38), 0 0 60px rgba(245,166,35,0.09);
+  box-shadow: 0 4px 24px rgba(16,14,9,0.22), 0 1px 4px rgba(16,14,9,0.12);
 }
 .glow-amber:hover {
-  box-shadow: 0 0 30px rgba(245,166,35,0.55), 0 0 90px rgba(245,166,35,0.15);
+  box-shadow: 0 8px 36px rgba(16,14,9,0.32), 0 2px 8px rgba(16,14,9,0.16);
 }
 
-/* Alias so existing components using glow-violet still work */
+/* Alias so existing components using glow-violet still compile */
 .glow-violet {
-  box-shadow: 0 0 20px rgba(245,166,35,0.38), 0 0 60px rgba(245,166,35,0.09);
+  box-shadow: 0 4px 24px rgba(16,14,9,0.22), 0 1px 4px rgba(16,14,9,0.12);
 }
 .glow-violet:hover {
-  box-shadow: 0 0 30px rgba(245,166,35,0.55), 0 0 90px rgba(245,166,35,0.15);
+  box-shadow: 0 8px 36px rgba(16,14,9,0.32), 0 2px 8px rgba(16,14,9,0.16);
 }
 
-/* ─── Noise grain overlay ───────────────────────────────────────────────────── */
+/* ─── Noise grain overlay — very subtle warmth ──────────────────────────────── */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.022;
+  opacity: 0.028;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-  mix-blend-mode: overlay;
+  mix-blend-mode: multiply;
 }
 
-/* ─── Skeleton shimmer ──────────────────────────────────────────────────────── */
+/* ─── Paper texture stripe ──────────────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 40px,
+    rgba(16,14,9,0.012) 40px,
+    rgba(16,14,9,0.012) 41px
+  );
+}
+
+/* ─── Skeleton shimmer — warm ───────────────────────────────────────────────── */
 @keyframes shimmer {
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
 .skeleton {
   background: linear-gradient(90deg,
-    rgba(255,255,255,0.03) 25%,
-    rgba(255,255,255,0.065) 50%,
-    rgba(255,255,255,0.03) 75%
+    rgba(16,14,9,0.04) 25%,
+    rgba(16,14,9,0.09) 50%,
+    rgba(16,14,9,0.04) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.8s infinite;
@@ -125,16 +152,16 @@ body::after {
 
 /* ─── Focus rings ───────────────────────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid rgba(245,166,35,0.65);
+  outline: 2px solid rgba(16,14,9,0.45);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* ─── Grid / dot background ─────────────────────────────────────────────────── */
+/* ─── Grid / dot background — barely-there ink ──────────────────────────────── */
 .bg-grid {
   background-image:
-    linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+    linear-gradient(rgba(16,14,9,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16,14,9,0.045) 1px, transparent 1px);
   background-size: 52px 52px;
 }
 
@@ -144,29 +171,29 @@ body::after {
   align-items: center;
   gap: 6px;
   padding: 4px 12px;
-  border: 1px solid rgba(245,166,35,0.28);
+  border: 1px solid rgba(16,14,9,0.22);
   border-radius: 999px;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: var(--amber);
-  background: rgba(245,166,35,0.06);
+  color: var(--text-2);
+  background: rgba(16,14,9,0.05);
 }
 
 /* ─── Card hover lift ───────────────────────────────────────────────────────── */
 .card-lift {
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
 }
 .card-lift:hover {
   transform: translateY(-3px);
-  box-shadow: 0 14px 44px rgba(0,0,0,0.6), 0 0 0 1px rgba(245,166,35,0.14);
+  box-shadow: 0 14px 40px rgba(16,14,9,0.14), 0 0 0 1px rgba(16,14,9,0.10);
 }
 
-/* ─── Amber pulse ───────────────────────────────────────────────────────────── */
+/* ─── Ink pulse ─────────────────────────────────────────────────────────────── */
 @keyframes pulse-amber {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(245,166,35,0.5); }
-  50%       { box-shadow: 0 0 0 6px rgba(245,166,35,0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16,14,9,0.35); }
+  50%       { box-shadow: 0 0 0 6px rgba(16,14,9,0); }
 }
 .pulse-amber { animation: pulse-amber 2.2s infinite; }
 
@@ -185,8 +212,8 @@ body::after {
   .mobile-px    { padding-left: 1rem !important; padding-right: 1rem !important; }
 }
 
-/* ─── Input dark scheme ─────────────────────────────────────────────────────── */
-input, textarea, select { color-scheme: dark; }
+/* ─── Input light scheme ────────────────────────────────────────────────────── */
+input, textarea, select { color-scheme: light; }
 
 /* ─── Divider ───────────────────────────────────────────────────────────────── */
 .divider {
@@ -212,3 +239,24 @@ input, textarea, select { color-scheme: dark; }
 .vk-accent-bg  { background: var(--vk-accent, #000); color: var(--vk-bg, #fff); border-radius: var(--vk-btn-radius, 4px); }
 .vk-accent-text { color: var(--vk-accent, #000); }
 .vk-muted      { color: var(--vk-text-muted, #666); }
+
+/* ─── Button primary (ink black on cream) ───────────────────────────────────── */
+.btn-primary {
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: background 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
+}
+.btn-primary:hover {
+  background: #2a2218;
+  transform: translateY(-1px);
+}
+
+/* ─── Gold accent dot ───────────────────────────────────────────────────────── */
+.gold-dot::after {
+  content: '·';
+  color: var(--gold);
+  margin-left: 2px;
+}
